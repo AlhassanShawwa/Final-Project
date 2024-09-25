@@ -1,0 +1,23 @@
+<?php
+return [
+    'name' => 'الاسم',
+    'firstnameenglish' => 'الاسم الأول بالإنجليزية',
+    'lastnameenglish' => 'الاسم الثاني بالإنجليزية',
+    'firstnamearabic' => 'الاسم الأول بالعربية',
+    'lastnamearabic' => 'الاسم الثاني بالعربية',
+    'englishname' => 'الاسم بالإنجليزية',
+    'arabicname' => 'الاسم بالعربية',
+    'gender' => 'الجنس',
+    'male' => 'ذكر',
+    'female' => 'أنثى',
+    'password' => 'كلمة المرور',
+    'specialty' => 'التخصص',
+    'dateofbirth' => 'تاريخ الميلاد',
+    'status' => 'الحالة',
+    'phone' => 'الهاتف',
+    'phonenumber' => 'رقم الهاتف',
+    'enterphonenumber' => 'أدخل رقم الهاتف',
+    'photo' => 'الصورة',
+    'email' => 'البريد الإلكتروني',
+    'enteremail' => 'أدخل البريد الإلكتروني',
+];
