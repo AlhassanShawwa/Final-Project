@@ -12,14 +12,16 @@ class Patient extends Authenticatable
 {
     use HasFactory, Notifiable, Trans;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $guarded = [];
-
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

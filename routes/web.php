@@ -1,19 +1,22 @@
 <?php
 
 use App\Http\Controllers\AmbulanceController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LapController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PharmacistController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestController;
-use App\Models\Lap;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -32,10 +35,7 @@ Route::group(
     function () {
         Auth::routes();
         route::prefix('dashboard')->group(function () {
-            // Route::get('/admin', function () {
-            //     return view('dashboard.admin.index');
-            // })->middleware('auth:admin');
-            route::prefix('/admin')->middleware('auth:admin')->group(function () {
+            route::prefix('/admin')->middleware('auth:admin')->name('admin.')->group(function () {
                 Route::get('/', function () {
                     return view('dashboard.admin.index');
                 })->name('dashboard');
@@ -65,15 +65,36 @@ Route::group(
                 route::resource('medicines', MedicineController::class);
                 Route::post('/medicines/import', [MedicineController::class, 'import'])->name('medicines.import');
                 route::resource('tests', TestController::class);
+                route::resource('appointments', AppointmentController::class);
+                route::get('/appointments/{id}/get-status', [AppointmentController::class, 'getStatus'])->name('appointments.getStatus');
+                route::post('/appointments/{id}/update-status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+                route::get('/appointments/get-patients', [AppointmentController::class, 'getPatients'])->name('appointments.getPatients');
+                route::get('/appointments/get_doctors/{id}', [AppointmentController::class, 'getDoctors'])->name('appointments.getDoctors');
+                route::resource('invoices', InvoiceController::class);
+                Route::get('invoices/get-patient-data/{id}', [InvoiceController::class, 'getPatientData']);
+            });
+            route::prefix('/doctor')->middleware('auth:doctor')->name('doctor.')->group(function () {
+                Route::get('/', function () {
+                    return view('dashboard.doctor.index');
+                })->name('dashboard');
+                route::resource('/prescriptions', PrescriptionController::class);
+                route::get('/appointments/dailyAppointments', [AppointmentController::class, 'dailyAppointments'])->name('appointments.dailyAppointments');
+                route::resource('appointments', AppointmentController::class);
+                route::get('/appointments/{id}/get-status', [AppointmentController::class, 'getStatus'])->name('appointments.getStatus');
+                route::post('/appointments/{id}/update-status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+                route::resource('/diagnoses', DiagnosisController::class);
+                Route::get('/get-medicines', [MedicineController::class, 'getMedicines'])->name('medicines.get');
+            });
+            route::prefix('/patient')->middleware('auth:web')->name('patient.')->group(function () {
+                Route::get('/', function () {
+                    return view('dashboard.patient.index');
+                })->name('dashboard');
+                route::resource('/appointments', AppointmentController::class);
+                Route::get('/appointments/get_doctors/{departmentId}', [AppointmentController::class, 'getDoctors'])->name('appointments.getDoctors');
+                Route::get('/appointments/get-services/{departmentId}', [AppointmentController::class, 'getServices'])->name('appointments.getServices');
+                route::get('/appointments/get-service-details/{serviceId}', [AppointmentController::class, 'getServiceDetails'])->name('appointments.getServiceDetails');
             });
 
-            Route::get('/doctor', function () {
-                return view('dashboard.doctor.index2');
-            })->middleware('auth:doctor');
-
-            Route::get('/patient', function () {
-                return view('dashboard.patient.index2');
-            })->middleware('auth');
 
             // route::prefix('doctor')->group(function () {
             //     Route::get('/', [App\Http\Controllers\Doctor\Dashboard\DoctorDashboardController::class, 'index'])->name('doctor.dashboard')->middleware('auth:doctor');

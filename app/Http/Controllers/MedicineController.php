@@ -49,6 +49,13 @@ class MedicineController extends Controller
     {
         //
     }
+    /**
+     * Get Medicines .
+     */
+    public function getMedicines()
+    {
+        return $this->Medicines->getMedicines();
+    }
 
     /**
      * Show the form for editing the specified resource.

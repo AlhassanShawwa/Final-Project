@@ -23,4 +23,8 @@ class Service extends Model
             ->withPivot('quantity')
             ->withTimestamps();;
     }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

@@ -19,7 +19,7 @@ class ServiceRepository implements ServiceRepositoryInterface
                     return $row->trans_name;
                 })
                 ->editColumn('department', function ($row) {
-                    return '<a class="btn" href="' . route('departments.show', $row->department->id) . '">' . $row->department->trans_name . '</a>';
+                    return '<a class="btn" href="' . route('admin.departments.show', $row->department->id) . '">' . $row->department->trans_name . '</a>';
                 })
                 ->editColumn('description', function ($row) {
                     return Str::words($row->trans_description, 5, '...');
@@ -29,7 +29,7 @@ class ServiceRepository implements ServiceRepositoryInterface
                 })
                 ->addColumn('actions', function ($row) {
                     return '
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit" data-url="' . route('services.edit', $row->id) . '" data-id="' . $row->id . '"
+                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit" data-url="' . route('admin.services.edit', $row->id) . '" data-id="' . $row->id . '"
                         type="button" id="edit">
                             <i class="la la-edit"></i>
                         </a>
@@ -38,9 +38,9 @@ class ServiceRepository implements ServiceRepositoryInterface
                                 <i class="la la-ellipsis-h"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="' . route('services.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
+                                <a class="dropdown-item" href="' . route('admin.services.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
                                 <a class="dropdown-item" id="updatestatus" data-toggle="modal" data-target="#kt_modal_1" href="javascript:;" data-id=" ' . $row->id . ' "><i class="la la-refresh"></i> Update Status</a>
-                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('services.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.services.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                             </div>
                         </span>
                     ';
@@ -49,7 +49,7 @@ class ServiceRepository implements ServiceRepositoryInterface
                 ->make(true);
         }
 
-        return view('dashboard.service.index', compact('departments'));
+        return view('dashboard.admin.service.index', compact('departments'));
     }
     public function store($request)
     {

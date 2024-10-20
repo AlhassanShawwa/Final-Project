@@ -58,7 +58,7 @@ class PharmacistRepository implements PharmacistRepositoryInterface
     public function create()
     {
         $pharmacies = Pharmacy::all();
-        return view('dashboard.pharmacist.create', compact('pharmacies'));
+        return view('dashboard.admin.pharmacist.create', compact('pharmacies'));
     }
     public function store($request)
     {

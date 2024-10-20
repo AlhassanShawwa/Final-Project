@@ -48,11 +48,11 @@ class PatientRepository implements PatientRepositoryInterface
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.patient.index');
+        return view('dashboard.admin.patient.index');
     }
     public function create()
     {
-        return view('dashboard.patient.create');
+        return view('dashboard.admin.patient.create');
     }
     public function store($request)
     {
@@ -110,31 +110,12 @@ class PatientRepository implements PatientRepositoryInterface
                 ]);
             }
         };
-        return view('dashboard.patient.edit', compact('patient'));
+        return view('dashboard.admin.patient.edit', compact('patient'));
     }
     public function show($id)
     {
         $patient = Patient::findOrFail($id);
-        // if (request()->ajax()) {
-        //     if ($patient) {
-        //         return response()->json([
-        //             'data' => [
-        //                 'image' => $patient->image,
-        //                 'firstnamear' => $patient->first_name_ar,
-        //                 'lastnamear' => $patient->last_name_ar,
-        //                 'firstnameen' => $patient->first_name_en,
-        //                 'lastnameen' => $patient->last_name_en,
-        //                 'email' => $patient->email,
-        //                 'phone' => $patient->phone,
-        //                 'addressar' => $patient->address_ar,
-        //                 'addressen' => $patient->address_en,
-        //                 'date_of_birth' => $patient->date_of_birth,
-        //                 'gender' => $patient->gender,
-        //             ]
-        //         ]);
-        //     }
-        // };
-        // dd($patient);
+
         return view('dashboard.patient.show');
     }
     public function update($request, $id)

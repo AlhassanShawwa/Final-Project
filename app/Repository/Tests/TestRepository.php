@@ -41,7 +41,7 @@ class TestRepository implements TestRepositoryInterface
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        return view('dashboard.test.index');
+        return view('dashboard.admin.test.index');
     }
     public function store($request)
     {

@@ -45,7 +45,7 @@ class DriverRepository implements DriverRepositoryInterface
     public function create()
     {
         $ambulances = Ambulance::all();
-        return view('dashboard.driver.create', compact('ambulances'));
+        return view('dashboard.admin.driver.create', compact('ambulances'));
     }
     public function store($request)
     {
@@ -91,7 +91,7 @@ class DriverRepository implements DriverRepositoryInterface
             }
         };
         $ambulances = Ambulance::all();
-        return view('dashboard.driver.edit', compact('driver', 'ambulances'));
+        return view('dashboard.admin.driver.edit', compact('driver', 'ambulances'));
     }
     public function update($request, $id)
     {

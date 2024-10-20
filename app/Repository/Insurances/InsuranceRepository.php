@@ -44,7 +44,7 @@ class InsuranceRepository implements InsuranceRepositoryInterface
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        return view('dashboard.insurance.index');
+        return view('dashboard.admin.insurance.index');
     }
     public function store($request)
     {

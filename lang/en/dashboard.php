@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'dashboard' => 'Dashboard',
     'departments' => 'Departments',
     'department' => 'Department',
@@ -19,7 +18,26 @@ return [
     'add-new-pharmacist' => 'Add New Pharmacist',
     'all-pharmacies' => 'All Pharmacies',
     'add-new-pharmacy' => 'Add New Pharmacy',
+    'medicines' => 'Medicines',
+    'add-new-medicines' => 'Add New Medicines',
     'patients' => 'Patients',
+    'all-patients' => 'All Patients',
     'hi' => 'Hi,',
-
+    'laps' => 'Laps',
+    'all-laps' => 'All Laps',
+    'add-new-lap' => 'Add New Lap',
+    'tests' => 'Tests',
+    'single-service' => 'Singel Service',
+    'group-service' => 'Group Service',
+    'ambulances' => 'Ambulances',
+    'add-new-ambulance' => 'Add New Ambulance',
+    'drivers' => 'Drivers',
+    'add-new-driver' => 'Add New Driver',
+    'appointments' => 'Appointments',
+    'add-new-appointment' => 'Add New Appointments',
+    'all-appointments' => 'All Appointments',
+    'daily-appointments' => 'Daily Appointments',
+    'invoices' => 'Invoices',
+    'all-invoices' => 'All Invoices',
+    'add-new-invoice' => 'Add New Invoice',
 ];

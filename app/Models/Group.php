@@ -20,7 +20,10 @@ class Group extends Model
             ->withPivot('quantity')
             ->withTimestamps();;
     }
-
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
     public function department()
     {
         return $this->belongsTo(Department::class);

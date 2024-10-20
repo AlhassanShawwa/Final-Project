@@ -4,16 +4,20 @@ var KTFormWidgets = function () {
     var initWidgets = function () {
         // datepicker
         $('#kt_datepicker').datepicker({
+            format: 'yyyy/mm/dd',
+            autoclose: true,
+            orientation: 'bottom auto',
             todayHighlight: true,
-            templates: {
-                leftArrow: '<i class="la la-angle-left"></i>',
-                rightArrow: '<i class="la la-angle-right"></i>'
-            }
         });
         // bootstrap select
         $('#select_status').selectpicker();
+        $('#select_medicine').selectpicker();
         $('#select_department').selectpicker();
+        $('#select_doctor').selectpicker();
+        $('#select_patient').selectpicker();
         $('#select').selectpicker();
+        $('#select-service-type').selectpicker();
+        $('#select-services').selectpicker();
         $('#service-select').selectpicker();
     }
     return {

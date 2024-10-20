@@ -94,8 +94,8 @@
                         <h3>Sign In To Doctor</h3>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Username" name="username"
-                            autocomplete="off">
+                        <input class="form-control" type="email" placeholder="Email" name="email" autocomplete="off">
+
                     </div>
                     <div class="form-group">
                         <input class="form-control" type="password" placeholder="Password" name="password"
@@ -120,8 +120,7 @@
                         <h3>Sign In To Patient</h3>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Username" name="username"
-                            autocomplete="off">
+                        <input class="form-control" type="email" placeholder="Email" name="email" autocomplete="off">
                     </div>
                     <div class="form-group">
                         <input class="form-control" type="password" placeholder="Password" name="password"
@@ -132,8 +131,7 @@
                         <a href="{{ asset('adminassets/#') }}" class="kt-link kt-login__link-forgot">
                             Forgot Password ?
                         </a>
-                        <button id="kt_login_signin_submit" type="submit"
-                            class="btn btn-primary btn-elevate kt-login__btn-primary">Sign
+                        <button type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary">Sign
                             In</button>
                     </div>
                     <!--end::Action-->

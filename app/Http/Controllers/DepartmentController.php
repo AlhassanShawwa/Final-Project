@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Interfaces\Departments\DepartmentRepositoryInterface;
+use App\Models\Doctor;
+use App\Models\Group;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller

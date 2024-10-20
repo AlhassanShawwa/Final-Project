@@ -27,14 +27,14 @@ class DoctorRepository implements DoctorRepositoryInterface
                         </div>
                         <div class="kt-user-card-v2__details">
                             <span class="kt-user-card-v2__name">' . $doctor->trans_full_name . '</span>
-                            <a href="' . route('departments.show', $doctor->department->id) . '" class="kt-user-card-v2__email kt-link">' . $doctor->department->trans_name . '</a>
+                            <a href="' . route('admin.departments.show', $doctor->department->id) . '" class="kt-user-card-v2__email kt-link">' . $doctor->department->trans_name . '</a>
                         </div>
                     </div>';
                 })
 
                 ->addColumn('actions', function ($row) {
                     return '
-                        <a href="' . route('doctors.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
+                        <a href="' . route('admin.doctors.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
                             <i class="la la-edit"></i>
                         </a>
                         <span class="dropdown">
@@ -42,9 +42,9 @@ class DoctorRepository implements DoctorRepositoryInterface
                                 <i class="la la-ellipsis-h"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="' . route('doctors.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
+                                <a class="dropdown-item" href="' . route('admin.doctors.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
                                 <a class="dropdown-item" id="updatestatus" data-toggle="modal" data-target="#kt_modal_1" href="javascript:;" data-id=" ' . $row->id . ' "><i class="la la-print"></i> Update Status</a>
-                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('doctors.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.doctors.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                             </div>
                         </span>
                     ';
@@ -52,12 +52,12 @@ class DoctorRepository implements DoctorRepositoryInterface
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.doctor.index');
+        return view('dashboard.admin.doctor.index');
     }
     public function create()
     {
         $departments = Department::all();
-        return view('dashboard.doctor.create', compact('departments'));
+        return view('dashboard.admin.doctor.create', compact('departments'));
     }
     public function store($request)
     {
@@ -74,7 +74,6 @@ class DoctorRepository implements DoctorRepositoryInterface
             $img_name = rand() . rand() . rand() . time() . '.' . $request->file('image')->getClientOriginalExtension();
             $request->file('image')->move(public_path('uploads/doctors/'), $img_name);
         }
-        $dateOfBirth = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
         $password = rand();
         Doctor::create([
             'first_name' => $firstname,
@@ -83,7 +82,7 @@ class DoctorRepository implements DoctorRepositoryInterface
             'image' => $img_name,
             'email' => $request->email,
             'password' => Hash::make($password),
-            'date_of_birth' => $dateOfBirth,
+            'date_of_birth' => $request->date,
             'gender' => $request->gender,
             'department_id' => $request->department,
             'status' => 'active',
@@ -112,7 +111,7 @@ class DoctorRepository implements DoctorRepositoryInterface
             }
         };
         $departments = Department::all();
-        return view('dashboard.doctor.edit', compact('doctor', 'departments'));
+        return view('dashboard.admin.doctor.edit', compact('doctor', 'departments'));
     }
     public function update($request, $id)
     {

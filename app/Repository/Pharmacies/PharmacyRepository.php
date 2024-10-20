@@ -35,11 +35,11 @@ class PharmacyRepository implements PharmacyRepositoryInterface
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.pharmacy.index');
+        return view('dashboard.admin.pharmacy.index');
     }
     public function create()
     {
-        return view('dashboard.pharmacy.create');
+        return view('dashboard.admin.pharmacy.create');
     }
     public function store($request)
     {
@@ -75,7 +75,7 @@ class PharmacyRepository implements PharmacyRepositoryInterface
                 ]);
             }
         };
-        return view('dashboard.pharmacy.edit', compact('pharmacy'));
+        return view('dashboard.admin.pharmacy.edit', compact('pharmacy'));
     }
     public function show($id) {}
     public function update($request, $id)

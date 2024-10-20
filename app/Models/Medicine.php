@@ -13,4 +13,10 @@ class Medicine extends Model
     {
         return $this->belongsToMany(Pharmacy::class, 'pharmacy_inventory');
     }
+    public function treatments()
+    {
+        return $this->belongsToMany(Treatment::class, 'treatment_medicine')
+            ->withPivot('dosage')
+            ->withTimestamps();
+    }
 }

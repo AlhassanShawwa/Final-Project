@@ -27,7 +27,7 @@ class AmbulanceRepository implements AmbulanceRepositoryInterface
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="' . route('ambulances.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
-                                 <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('ambulances.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                                 <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.ambulances.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                             </div>
                         </span>
                     ';
@@ -35,7 +35,7 @@ class AmbulanceRepository implements AmbulanceRepositoryInterface
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        return view('dashboard.ambulance.index');
+        return view('dashboard.admin.ambulance.index');
     }
     public function store($request)
     {

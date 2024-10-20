@@ -36,11 +36,11 @@ class LapRepository implements LapRepositoryInterface
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.lap.index');
+        return view('dashboard.admin.lap.index');
     }
     public function create()
     {
-        return view('dashboard.lap.create');
+        return view('dashboard.admin.lap.create');
     }
     public function store($request)
     {
@@ -76,7 +76,7 @@ class LapRepository implements LapRepositoryInterface
                 ]);
             }
         };
-        return view('dashboard.lap.edit', compact('lap'));
+        return view('dashboard.admin.lap.edit', compact('lap'));
     }
     public function show($id) {}
     public function update($request, $id)

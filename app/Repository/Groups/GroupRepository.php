@@ -21,7 +21,7 @@ class GroupRepository implements GroupRepositoryInterface
                     return $row->trans_name;
                 })
                 ->editColumn('department', function ($row) {
-                    return '<a class="btn" href="' . route('departments.show', $row->department->id) . '">' . $row->department->trans_name . '</a>';
+                    return '<a class="btn" href="' . route('admin.departments.show', $row->department->id) . '">' . $row->department->trans_name . '</a>';
                 })
                 ->editColumn('description', function ($row) {
                     return Str::words($row->trans_description, 5, '...');
@@ -31,7 +31,7 @@ class GroupRepository implements GroupRepositoryInterface
                 })
                 ->addColumn('actions', function ($row) {
                     return '
-                        <a href="' . route('group-services.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
+                        <a href="' . route('admin.group-services.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
                             <i class="la la-edit"></i>
                         </a>
                         <span class="dropdown">
@@ -39,9 +39,9 @@ class GroupRepository implements GroupRepositoryInterface
                                 <i class="la la-ellipsis-h"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="' . route('group-services.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
+                                <a class="dropdown-item" href="' . route('admin.group-services.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
                                 <a class="dropdown-item" id="updatestatus" data-toggle="modal" data-target="#kt_modal_1" href="javascript:;" data-id=" ' . $row->id . ' "><i class="la la-print"></i> Update Status</a>
-                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('group-services.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.group-services.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                             </div>
                         </span>
                     ';
@@ -49,12 +49,12 @@ class GroupRepository implements GroupRepositoryInterface
                 ->rawColumns(['actions', 'name', 'department'])
                 ->make(true);
         }
-        return view('dashboard.group_services.index');
+        return view('dashboard.admin.group_services.index');
     }
     public function create()
     {
         $departments = Department::all();
-        return view('dashboard.group_services.create', compact('departments'));
+        return view('dashboard.admin.group_services.create', compact('departments'));
     }
 
     public function get_services($id)
@@ -139,52 +139,8 @@ class GroupRepository implements GroupRepositoryInterface
         }
 
         $departments = Department::all();
-        return view('dashboard.group_services.edit', compact('group', 'departments'));
+        return view('dashboard.admin.group_services.edit', compact('group', 'departments'));
     }
-
-    // public function update($request, $id)
-    // {
-    //     $group = Group::findOrFail($id);
-    //     $name = json_encode([
-    //         'en' => $request->nameen,
-    //         'ar' => $request->namear,
-    //     ], JSON_UNESCAPED_UNICODE);
-
-    //     $description = json_encode([
-    //         'en' => $request->descriptionen,
-    //         'ar' => $request->descriptionar,
-    //     ], JSON_UNESCAPED_UNICODE);
-
-    //     $services = $request->input('services', []);
-    //     $totalBeforeDiscount = array_sum(array_column($services, 'total'));
-    //     $discount = $request->discount;
-    //     $totalAfterDiscount = $totalBeforeDiscount - $discount;
-    //     $taxRate = $request->tax_rate;
-    //     $totalWithTax = $totalAfterDiscount * (1 + $taxRate / 100);
-
-    //     $group->update([
-    //         'name' => $name,
-    //         'department_id' => $request->department,
-    //         'description' => $description,
-    //         'total_before_discount' => $totalBeforeDiscount,
-    //         'discount' => $discount,
-    //         'total_after_discount' => $totalAfterDiscount,
-    //         'tax_rate' => $taxRate,
-    //         'total_with_tax' => $totalWithTax,
-    //     ]);
-
-    //     foreach ($request->services as $service) {
-    //         $group->services()->detach($service['service_id'], [
-    //             'quantity' => $service['quantity']
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //         'success' => true,
-    //         'message' => 'تمت تحديث البيانات بنجاح!',
-    //     ]);
-    // }
-
     public function update($request, $id)
     {
         $group = Group::findOrFail($id);

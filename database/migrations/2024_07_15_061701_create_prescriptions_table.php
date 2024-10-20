@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('doctor_id');
             $table->foreignId('medicine_id');
             $table->string('dosage');
-            $table->string('comments');
+            $table->string('description');
             $table->date('prescription_date');
             $table->timestamps();
         });

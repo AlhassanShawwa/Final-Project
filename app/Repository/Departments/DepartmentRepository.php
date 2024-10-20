@@ -14,7 +14,7 @@ class DepartmentRepository implements DepartmentRepositoryInterface
         if (request()->ajax()) {
             return datatables()->of($departments)
                 ->editColumn('name', function ($row) {
-                    return '<a class="btn" href="' . route('departments.show', $row->id) . '">' . $row->trans_name . '</a>';
+                    return '<a class="btn" href="' . route('admin.departments.show', $row->id) . '">' . $row->trans_name . '</a>';
                 })
                 ->editColumn('address', function ($row) {
                     return $row->trans_address;
@@ -27,7 +27,7 @@ class DepartmentRepository implements DepartmentRepositoryInterface
                 })
                 ->addColumn('actions', function ($row) {
                     return '
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit" data-url="' . route('departments.edit', $row->id) . '" data-id="' . $row->id . '"
+                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit" data-url="' . route('admin.departments.edit', $row->id) . '" data-id="' . $row->id . '"
                     type="button" id="edit">
                         <i class="la la-edit"></i>
                     </a>
@@ -36,16 +36,16 @@ class DepartmentRepository implements DepartmentRepositoryInterface
                           <i class="la la-ellipsis-h"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="' . route('departments.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
+                        <a class="dropdown-item" href="' . route('admin.departments.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
                         <a class="dropdown-item" href="javascript:;"><i class="la la-print"></i> Update Status</a>
-                        <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('departments.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                        <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.departments.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                         </div>
                     </span>';
                 })
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.department.index');
+        return view('dashboard.admin.department.index');
     }
     public function store($request)
     {
@@ -86,14 +86,14 @@ class DepartmentRepository implements DepartmentRepositoryInterface
                         </div>
                         <div class="kt-user-card-v2__details">
                             <span class="kt-user-card-v2__name">' . $doctor->trans_full_name . '</span>
-                            <a href="' . route('departments.show', $doctor->department->id) . '" class="kt-user-card-v2__email kt-link">' . $doctor->department->trans_name . '</a>
+                            <a href="' . route('admin.departments.show', $doctor->department->id) . '" class="kt-user-card-v2__email kt-link">' . $doctor->department->trans_name . '</a>
                         </div>
                     </div>';
                 })
 
                 ->addColumn('actions', function ($row) {
                     return '
-                        <a href="' . route('doctors.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
+                        <a href="' . route('admin.doctors.edit', $row->id) . '" class="btn btn-sm btn-clean  btn-icon btn-icon-md" title="edit">
                             <i class="la la-edit"></i>
                         </a>
                         <span class="dropdown">
@@ -101,9 +101,9 @@ class DepartmentRepository implements DepartmentRepositoryInterface
                                 <i class="la la-ellipsis-h"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="' . route('doctors.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
+                                <a class="dropdown-item" href="' . route('admin.doctors.show', $row->id) . '"><i class="la la-eye"></i> Generate Report</a>
                                 <a class="dropdown-item" id="updatestatus" data-toggle="modal" data-target="#kt_modal_1" href="javascript:;" data-id=" ' . $row->id . ' "><i class="la la-print"></i> Update Status</a>
-                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('doctors.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
+                                <a class="dropdown-item" id="trash" href="javascript:;" data-url="' . route('admin.doctors.destroy', $row->id) . '"><i class="la la-trash"></i>Delete Record</a>
                             </div>
                         </span>
                     ';
@@ -111,7 +111,7 @@ class DepartmentRepository implements DepartmentRepositoryInterface
                 ->rawColumns(['actions', 'name'])
                 ->make(true);
         }
-        return view('dashboard.department.show-doctors', compact('department'));
+        return view('dashboard.admin.department.show-doctors', compact('department'));
     }
 
     public function edit($id)

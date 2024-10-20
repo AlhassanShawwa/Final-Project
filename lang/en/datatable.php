@@ -36,4 +36,11 @@ return [
     ],
     'loadingRecords' => 'Loading...',
     'processing' => 'Processing...',
+    'scheduled' => 'Scheduled',
+    'hanging' => 'Hanging',
+    'completed' => 'Completed',
+    'cancelled' => 'Cancelled',
+    'appointment-date' => 'Appointment Date',
+    'patient-name' => 'Patient Name',
+    'doctor-name' => 'Doctor Name',
 ];
