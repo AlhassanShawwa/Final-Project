@@ -364,10 +364,11 @@
             });
 
             let medicineCount = 0;
+
             $('.add-medicine-btn').click(function() {
                 if ($('tr.new-medicine').length > 0) {
                     Swal.fire({
-                        type: 'warning',
+                        icon: 'warning',
                         title: 'تحذير',
                         text: 'يرجى تأكيد الخدمة الحالية أولاً!',
                         confirmButtonText: 'موافق'
@@ -383,17 +384,19 @@
                 $('table.medicines-table tbody').append(newRow);
                 updateRowNumbers();
             });
+
             $(document).on('click', '.confirm-medicine', function(e) {
                 e.preventDefault();
 
                 const row = $(this).closest('tr');
                 const select = row.find('.medicine');
                 const selectedOption = select.find('option:selected');
+
                 if (!selectedOption.val()) {
                     Swal.fire({
                         icon: 'error',
                         title: 'خطأ',
-                        text: 'يرجى اختيار خدمة!',
+                        text: 'يرجى اختيار دواء!',
                         confirmButtonText: 'موافق'
                     });
                     return;
@@ -431,37 +434,51 @@
                     });
                     return;
                 }
-
                 const medicineName = select.find('option:selected').text();
                 const readOnlyInput =
                     `<input type="text" class="form-control" value="${medicineName}" readonly disabled />`;
                 row.find('td').first().html(readOnlyInput);
-
-                select.find(`option[value="${selectedOption}"]`).remove();
-                select.remove();
-
+                row.find('.medicine').remove();
                 row.find('.confirm-medicine').remove();
                 row.removeClass('new-medicine').addClass('medicine');
-
                 updateRowNumbers();
             });
-
             $(document).on('click', '.remove-medicine', function(event) {
                 event.preventDefault();
                 const row = $(this).closest('tr');
-                Swal.fire({
-                    title: 'تأكيد الحذف',
-                    text: 'هل أنت متأكد أنك تريد حذف هذا الدواء ؟',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'نعم، حذف!',
-                    cancelButtonText: 'لا، إلغاء'
-                }).then((result) => {
-                    if (result.value) {
-                        row.remove();
-                        updateRowNumbers();
-                    }
-                });
+                if (row.index() === 0) {
+                    Swal.fire({
+                        title: 'إفراغ البيانات',
+                        text: 'لا يمكن حذف هذا الصف، هل تريد إفراغ البيانات؟',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'نعم، إفراغ!',
+                        cancelButtonText: 'لا، إلغاء'
+                    }).then((result) => {
+                        if (result.value) {
+                            row.find('select.medicine').val(null).selectpicker(
+                                'refresh');
+                            row.find('input[name="dosage"]').val('');
+                            row.find('input.frequency').val('');
+                            row.find('input.description').val('');
+                        }
+                    });
+                } else {
+                    // حذف الصف العادي
+                    Swal.fire({
+                        title: 'تأكيد الحذف',
+                        text: 'هل أنت متأكد أنك تريد حذف هذا الدواء؟',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'نعم، حذف!',
+                        cancelButtonText: 'لا، إلغاء'
+                    }).then((result) => {
+                        if (result.value) {
+                            row.remove();
+                            updateRowNumbers();
+                        }
+                    });
+                }
             });
 
             function updateRowNumbers() {
@@ -471,6 +488,7 @@
                     rowIndex++;
                 });
             }
+
         });
     </script>
 @endsection
