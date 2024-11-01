@@ -163,7 +163,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="new-medicine-template">
+                                            <tr class="new-medicine">
                                                 <th scope="row" class="medicine-count">1</th>
                                                 <td>
                                                     <div class="bootstrap-select-wrapper">
@@ -172,11 +172,6 @@
                                                             <select class="form-control medicine" id="select_medicine"
                                                                 name="medicine" data-live-search="true">
                                                                 <option disabled selected>Select Doctor</option>
-                                                                <option value="dad">51515151</option>
-                                                                <option value="dad">wqwq</option>
-                                                                <option value="dad">qwdsdacxzc</option>
-                                                                <option value="dad">s;olckn</option>
-                                                                <option value="dad">87yj</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -207,7 +202,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="saveDiagnosisChanges" type="button" data-id="" class="btn btn-primary">Save
+                    <button id="saveDiagnosisChanges" type="button" data-patient-id="" data-appointment-id=""
+                        class="btn btn-primary">Save
                         changes</button>
                 </div>
             </div>
@@ -257,9 +253,8 @@
     <script>
         $(document).ready(function() {
             var doctorSelect = $('.kt-selectpicker');
-
+            loadMedicines();
             doctorSelect.selectpicker('refresh');
-
             var table = $('#kt_table_1');
             table.DataTable({
                 responsive: true,
@@ -337,32 +332,48 @@
                     "processing": "{{ __('datatable.processing') }}",
                 }
             });
-            $.ajax({
-                url: '{{ route('doctor.medicines.get') }}',
-                type: 'GET',
-                success: function(response) {
-                    $('select[name="medicine"]').each(function() {
-                        const medicineSelect = $(this);
-                        medicineSelect.empty();
-                        medicineSelect.append('<option selected disabled >اختر دواء</option>');
-                        response.forEach(function(medicine) {
-                            medicineSelect.append(
-                                `<option value="${medicine.id}">${medicine.name}</option>`
-                            );
-                        });
-                        medicineSelect.selectpicker('refresh');
-                    });
-                },
-                error: function(xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'خطأ',
-                        text: 'حدث خطأ أثناء تحميل الأدوية!',
-                        confirmButtonText: 'موافق'
-                    });
-                }
+            $(document).on('click', '#diagnosis', function() {
+                const patientId = $(this).data('patient-id');
+                const appointmentId = $(this).data('id');
+                $('#saveDiagnosisChanges').data('patient-id', patientId);
+                $('#saveDiagnosisChanges').data('appointment-id', appointmentId);
+            });
+            $('#kt_modal_4_2').on('hidden.bs.modal', function() {
+                $('#saveDiagnosisChanges').removeData('patient-id');
+                $('#saveDiagnosisChanges').removeData('appointment-id');
+                $('#diagnosisAr').val('');
+                $('#diagnosisEn').val('');
+                $('.medicines-table tbody').empty();
             });
 
+            function loadMedicines() {
+                $.ajax({
+                    url: '{{ route('doctor.medicines.get') }}',
+                    type: 'GET',
+                    success: function(response) {
+                        $('select[name="medicine"]').each(function() {
+                            const medicineSelect = $(this);
+                            medicineSelect.empty();
+                            medicineSelect.append(
+                                '<option selected disabled >اختر دواء</option>');
+                            response.forEach(function(medicine) {
+                                medicineSelect.append(
+                                    `<option value="${medicine.id}">${medicine.name}</option>`
+                                );
+                            });
+                            medicineSelect.selectpicker('refresh');
+                        });
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: 'حدث خطأ أثناء تحميل الأدوية!',
+                            confirmButtonText: 'موافق'
+                        });
+                    }
+                });
+            }
             let medicineCount = 0;
 
             $('.add-medicine-btn').click(function() {
@@ -375,15 +386,35 @@
                     });
                     return;
                 }
-                medicineCount++;
-                const newRow = $('.new-medicine-template').clone();
-                newRow.removeClass('new-medicine-template d-none').addClass('new-medicine');
-                newRow.attr('data-index', medicineCount);
-                newRow.find('.medicine-count').text(medicineCount);
-                newRow.attr('id', `medicine-${medicineCount}`);
+
+                let newRow = `
+                        <tr class="new-medicine">
+                            <th scope="row" class="medicine-count"></th>
+                            <td>
+                                <div class="bootstrap-select-wrapper">
+                                    <div class="dropdown bootstrap-select form-control kt-bootstrap-select dropup">
+                                            <select class="form-control medicine" id="select_medicine"
+                                                                                name="medicine" data-live-search="true">
+                                            <option disabled selected>Select Doctor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>~ْؤرلا ى
+                            <td><input type="number" style="width: 150px;" class="form-control" name="dosage" id="dosage"></td>
+                            <td><input type="text" class="form-control frequency" placeholder="frequency" /></td>
+                            <td><input type="text" class="form-control description" placeholder="description" /></td>
+                            <td>
+                                <button class="btn btn-sm btn-icon btn-icon-md btn-primary confirm-medicine"><i class="la la-check"></i></button>
+                                <button class="btn btn-sm btn-icon btn-icon-md btn-danger remove-medicine"><i class="la la-close"></i></button>
+                            </td>
+                        </tr>`;
+
                 $('table.medicines-table tbody').append(newRow);
+                $('select[name="medicine"]').selectpicker('refresh');
+                loadMedicines();
                 updateRowNumbers();
             });
+
 
             $(document).on('click', '.confirm-medicine', function(e) {
                 e.preventDefault();
@@ -435,8 +466,9 @@
                     return;
                 }
                 const medicineName = select.find('option:selected').text();
+                const medicineId = select.find('option:selected').val();
                 const readOnlyInput =
-                    `<input type="text" class="form-control" value="${medicineName}" readonly disabled />`;
+                    `<input type="text" class="form-control" name="medicine" data-id="${medicineId}" value="${medicineName}" readonly disabled />`;
                 row.find('td').first().html(readOnlyInput);
                 row.find('.medicine').remove();
                 row.find('.confirm-medicine').remove();
@@ -446,40 +478,61 @@
             $(document).on('click', '.remove-medicine', function(event) {
                 event.preventDefault();
                 const row = $(this).closest('tr');
-                if (row.index() === 0) {
+
+                const rowCount = $('table.medicines-table tbody tr').length;
+
+                if (rowCount === 1) {
                     Swal.fire({
                         title: 'إفراغ البيانات',
-                        text: 'لا يمكن حذف هذا الصف، هل تريد إفراغ البيانات؟',
-                        type: 'warning',
+                        text: 'هذا هو الصف الوحيد المتبقي. هل تريد إفراغ الجدول؟',
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'نعم، إفراغ!',
                         cancelButtonText: 'لا، إلغاء'
                     }).then((result) => {
-                        if (result.value) {
-                            row.find('select.medicine').val(null).selectpicker(
-                                'refresh');
-                            row.find('input[name="dosage"]').val('');
-                            row.find('input.frequency').val('');
-                            row.find('input.description').val('');
-                        }
+                        row.find('select.medicine').val(null).selectpicker('refresh');
+                        row.find('input[name="dosage"]').val('');
+                        row.find('input.frequency').val('');
+                        row.find('input.description').val('');
+
+                        const buttonsHtml = `
+                        <button class="btn btn-sm btn-icon btn-icon-md btn-primary confirm-medicine"><i class="la la-check"></i></button>
+                        <button class="btn btn-sm btn-icon btn-icon-md btn-danger remove-medicine"><i class="la la-close"></i></button>
+                        `;
+                        row.find('td').last().html(buttonsHtml);
+                        const newSelect = `
+                            <select class="form-control medicine" name="medicine" data-live-search="true">
+                                <option disabled selected>اختر دواء</option>
+                            </select>
+                            `;
+                        row.find('td').first().html(
+                            newSelect);
+                        loadMedicines();
                     });
                 } else {
-                    // حذف الصف العادي
                     Swal.fire({
                         title: 'تأكيد الحذف',
                         text: 'هل أنت متأكد أنك تريد حذف هذا الدواء؟',
-                        type: 'warning',
+                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'نعم، حذف!',
                         cancelButtonText: 'لا، إلغاء'
                     }).then((result) => {
-                        if (result.value) {
-                            row.remove();
-                            updateRowNumbers();
+
+                        row.remove();
+
+                        if ($('table.medicines-table tbody tr').length === 0) {
+                            $('table.medicines-table tbody').empty();
+                            $('table.medicines-table tbody').append(
+                                '<tr><td colspan="6" class="text-center">لا توجد أدوية مضافة بعد.</td></tr>'
+                            );
                         }
+
+                        updateRowNumbers();
                     });
                 }
             });
+
 
             function updateRowNumbers() {
                 let rowIndex = 1;
@@ -489,6 +542,62 @@
                 });
             }
 
+            $('#saveDiagnosisChanges').click(function(e) {
+                e.preventDefault();
+
+                let diagnosisData = {
+                    _token: $('input[name="_token"]').val(),
+                    diagnosis_ar: $('#diagnosisAr').val(),
+                    diagnosis_en: $('#diagnosisEn').val(),
+                    patient_id: $(this).data('patient-id'),
+                    appointment_id: $(this).data('appointment-id'),
+                    medicines: []
+                };
+
+
+                $('.medicines-table tbody tr').each(function() {
+                    const medicineRow = $(this);
+                    const medicineId = medicineRow.find('input[name="medicine"]').data('id');
+                    const dosage = medicineRow.find('input[name="dosage"]').val();
+                    const frequency = medicineRow.find('.frequency').val();
+                    const description = medicineRow.find('.description').val();
+
+                    if (medicineId) {
+                        diagnosisData.medicines.push({
+                            medicine: medicineId,
+                            dosage: dosage,
+                            frequency: frequency,
+                            description: description
+                        });
+                    }
+                });
+
+
+                $.ajax({
+                    url: '{{ route('doctor.diagnoses.store') }}',
+                    type: 'POST',
+                    data: diagnosisData,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'تم الحفظ!',
+                            text: 'تم حفظ التشخيص والأدوية بنجاح.',
+                            confirmButtonText: 'موافق'
+                        });
+                        $('#kt_modal_4_2').modal('hide');
+                        $('#kt_table_1').DataTable().ajax.reload();
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'خطأ',
+                            text: 'حدث خطأ أثناء حفظ البيانات!',
+                            confirmButtonText: 'موافق'
+                        });
+                    }
+                });
+            });
         });
     </script>
+
 @endsection

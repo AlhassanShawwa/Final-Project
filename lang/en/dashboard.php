@@ -40,4 +40,6 @@ return [
     'invoices' => 'Invoices',
     'all-invoices' => 'All Invoices',
     'add-new-invoice' => 'Add New Invoice',
+    'chats' => 'Chats',
+
 ];

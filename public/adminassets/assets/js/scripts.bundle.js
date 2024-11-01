@@ -506,7 +506,7 @@ var KTDialog = function(options) {
 
     // Get element object
     var element;
-    var body = KTUtil.get('body');  
+    var body = KTUtil.get('body');
 
     // Default options
     var defaultOptions = {
@@ -514,8 +514,8 @@ var KTDialog = function(options) {
         'type'  : 'loader',
         'width' : 100,
         'state' : 'default',
-        'message' : 'Loading...' 
-    };    
+        'message' : 'Loading...'
+    };
 
     ////////////////////////////
     // ** Private Methods  ** //
@@ -552,10 +552,10 @@ var KTDialog = function(options) {
 
             element = document.createElement("DIV");
             KTUtil.setHTML(element, the.options.message);
-            
+
             KTUtil.addClass(element, 'kt-dialog kt-dialog--shown');
             KTUtil.addClass(element, 'kt-dialog--' + the.options.state);
-            KTUtil.addClass(element, 'kt-dialog--' + the.options.type); 
+            KTUtil.addClass(element, 'kt-dialog--' + the.options.type);
 
             if (the.options.placement == 'top center') {
                 KTUtil.addClass(element, 'kt-dialog--top-center');
@@ -596,7 +596,7 @@ var KTDialog = function(options) {
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
-                            the.events[i].fired = true;                            
+                            the.events[i].fired = true;
                             return event.handler.call(this, the);
                         }
                     } else {
@@ -623,7 +623,7 @@ var KTDialog = function(options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
     the.setDefaults = function(options) {
@@ -631,21 +631,21 @@ var KTDialog = function(options) {
     };
 
     /**
-     * Check shown state 
+     * Check shown state
      */
     the.shown = function() {
         return the.state == 'shown';
     };
 
     /**
-     * Check hidden state 
+     * Check hidden state
      */
     the.hidden = function() {
         return the.state == 'hidden';
     };
 
     /**
-     * Show dialog 
+     * Show dialog
      */
     the.show = function() {
         return Plugin.show();
@@ -1767,7 +1767,7 @@ var KTOffcanvas = function(elementId, options) {
             } else {
                 // reset offcanvas
                 Plugin.init(options);
-                
+
                 // build offcanvas
                 Plugin.build();
 
@@ -1794,34 +1794,34 @@ var KTOffcanvas = function(elementId, options) {
         build: function() {
             // offcanvas toggle
             if (the.options.toggleBy) {
-                if (typeof the.options.toggleBy === 'string') { 
+                if (typeof the.options.toggleBy === 'string') {
                     KTUtil.addEvent( the.options.toggleBy, 'click', function(e) {
                         e.preventDefault();
                         Plugin.toggle();
-                    }); 
+                    });
                 } else if (the.options.toggleBy && the.options.toggleBy[0]) {
                     if (the.options.toggleBy[0].target) {
-                        for (var i in the.options.toggleBy) { 
+                        for (var i in the.options.toggleBy) {
                             KTUtil.addEvent( the.options.toggleBy[i].target, 'click', function(e) {
                                 e.preventDefault();
                                 Plugin.toggle();
-                            }); 
+                            });
                         }
                     } else {
-                        for (var i in the.options.toggleBy) { 
+                        for (var i in the.options.toggleBy) {
                             KTUtil.addEvent( the.options.toggleBy[i], 'click', function(e) {
                                 e.preventDefault();
                                 Plugin.toggle();
-                            }); 
+                            });
                         }
                     }
-                    
+
                 } else if (the.options.toggleBy && the.options.toggleBy.target) {
                     KTUtil.addEvent( the.options.toggleBy.target, 'click', function(e) {
                         e.preventDefault();
                         Plugin.toggle();
-                    }); 
-                } 
+                    });
+                }
             }
 
             // offcanvas close
@@ -1846,7 +1846,7 @@ var KTOffcanvas = function(elementId, options) {
         },
 
         toggle: function() {;
-            Plugin.eventTrigger('toggle'); 
+            Plugin.eventTrigger('toggle');
 
             if (the.state == 'shown') {
                 Plugin.hide(this);
@@ -1877,7 +1877,7 @@ var KTOffcanvas = function(elementId, options) {
                 KTUtil.addEvent(the.overlay, 'click', function(e) {
                     e.stopPropagation();
                     e.preventDefault();
-                    Plugin.hide(target);       
+                    Plugin.hide(target);
                 });
             }
 
@@ -1918,15 +1918,15 @@ var KTOffcanvas = function(elementId, options) {
                 for (var i in the.options.toggleBy) {
                     if (the.options.toggleBy[i].target === id) {
                         toggleBy = the.options.toggleBy[i];
-                    }        
+                    }
                 }
             } else if (the.options.toggleBy && the.options.toggleBy.target) {
                 toggleBy = the.options.toggleBy;
             }
 
-            if (toggleBy) {                
+            if (toggleBy) {
                 var el = KTUtil.get(toggleBy.target);
-                
+
                 if (mode === 'show') {
                     KTUtil.addClass(el, toggleBy.state);
                 }
@@ -2733,12 +2733,12 @@ var KTScrolltop = function(elementId, options) {
                     Plugin.handle();
                 });
             } else {
-                window.addEventListener('scroll', function() { 
+                window.addEventListener('scroll', function() {
                     Plugin.handle();
                 });
             }
 
-            // handle button click 
+            // handle button click
             KTUtil.addEvent(element, 'click', Plugin.scroll);
         },
 
@@ -2798,7 +2798,7 @@ var KTScrolltop = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
     the.setDefaults = function(options) {
@@ -2848,7 +2848,7 @@ var KTToggle = function(elementId, options) {
 
     // Get element object
     var element = KTUtil.get(elementId);
-    var body = KTUtil.get('body');  
+    var body = KTUtil.get('body');
 
     if (!element) {
         return;
@@ -2858,7 +2858,7 @@ var KTToggle = function(elementId, options) {
     var defaultOptions = {
         togglerState: '',
         targetState: ''
-    };    
+    };
 
     ////////////////////////////
     // ** Private Methods  ** //
@@ -2908,7 +2908,7 @@ var KTToggle = function(elementId, options) {
         build: function() {
             KTUtil.addEvent(element, 'mouseup', Plugin.toggle);
         },
-        
+
         /**
          * Handles offcanvas click toggle
          */
@@ -2980,7 +2980,7 @@ var KTToggle = function(elementId, options) {
                 if (event.name == name) {
                     if (event.one == true) {
                         if (event.fired == false) {
-                            the.events[i].fired = true;                            
+                            the.events[i].fired = true;
                             return event.handler.call(this, the);
                         }
                     } else {
@@ -3007,7 +3007,7 @@ var KTToggle = function(elementId, options) {
     //////////////////////////
 
     /**
-     * Set default options 
+     * Set default options
      */
 
     the.setDefaults = function(options) {
@@ -3015,28 +3015,28 @@ var KTToggle = function(elementId, options) {
     };
 
     /**
-     * Get toggle state 
+     * Get toggle state
      */
     the.getState = function() {
         return the.state;
     };
 
     /**
-     * Toggle 
+     * Toggle
      */
     the.toggle = function() {
         return Plugin.toggle();
     };
 
     /**
-     * Toggle on 
+     * Toggle on
      */
     the.toggleOn = function() {
         return Plugin.toggleOn();
     };
 
     /**
-     * Toggle off 
+     * Toggle off
      */
     the.toggleOff = function() {
         return Plugin.toggleOff();

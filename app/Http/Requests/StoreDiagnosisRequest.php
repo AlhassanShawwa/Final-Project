@@ -24,6 +24,11 @@ class StoreDiagnosisRequest extends FormRequest
         return [
             'diagnosis_en' => 'required|string|max:255',
             'diagnosis_ar' => 'required|string|max:255',
+            'medicines' => 'required|array',
+            'medicines.*.medicine' => 'required|integer|exists:medicines,id',
+            'medicines.*.dosage' => 'required|numeric|min:1',
+            'medicines.*.frequency' => 'required|string|max:100',
+            'medicines.*.description' => 'required|string|max:255',
         ];
     }
 }

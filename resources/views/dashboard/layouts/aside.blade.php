@@ -223,7 +223,6 @@
                                             class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                             class="kt-menu__link-text">{{ __('dashboard.all-patients') }}</span></a>
                                 </li>
-
                             </ul>
                         </div>
                     </li>
@@ -286,7 +285,7 @@
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                             class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon flaticon-graphic"></i><span
+                                class="kt-menu__link-icon fa fa-user-injured"></i><span
                                 class="kt-menu__link-text">{{ __('dashboard.patients') }}</span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
@@ -296,14 +295,13 @@
                                             class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                             class="kt-menu__link-text">{{ __('dashboard.all-patients') }}</span></a>
                                 </li>
-
                             </ul>
                         </div>
                     </li>
                     <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                         data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                             class="kt-menu__link kt-menu__toggle"><i
-                                class="kt-menu__link-icon flaticon-graphic"></i><span
+                                class="kt-menu__link-icon flaticon-time-3"></i><span
                                 class="kt-menu__link-text">{{ __('dashboard.appointments') }}</span><i
                                 class="kt-menu__ver-arrow la la-angle-right"></i></a>
                         <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
@@ -323,6 +321,9 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="kt-menu__item " aria-haspopup="true"><a href="{{ route('doctor.chats.index') }}" class="kt-menu__link ">
+                            <i class="kt-menu__link-icon flaticon-chat-1"></i>
+                            <span class="kt-menu__link-text">{{ __('dashboard.chats') }}</span></a></li>
                 </ul>
             @elseif (Auth::guard('web')->check())
                 <ul class="kt-menu__nav ">

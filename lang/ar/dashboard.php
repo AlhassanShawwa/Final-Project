@@ -40,4 +40,5 @@ return [
     'invoices' => 'الفواتير',
     'all-invoices' => 'جميع الفواتير',
     'add-new-invoice' => 'إضافة فاتورة جديدة',
+    'chats' => 'المحادثات',
 ];

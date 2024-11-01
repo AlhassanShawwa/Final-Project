@@ -20,8 +20,27 @@ class Doctor extends Authenticatable
     {
         return $this->hasMany(Appointment::class);
     }
-    public function paidPatients()
+
+    public function conversations()
     {
-        return $this->appointments()->whereHas('invoice');
+        return $this->hasMany(Conversation::class, 'doctor_id');
+    }
+
+    public function messagesSent()
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function messagesReceived()
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+
+    public function unreadMessagesInConversation($conversationId)
+    {
+        return $this->messagesReceived()
+            ->where('conversation_id', $conversationId)
+            ->where('is_read', false)
+            ->count();
     }
 }

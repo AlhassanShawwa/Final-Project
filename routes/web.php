@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AmbulanceController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\DoctorController;
@@ -84,6 +85,7 @@ Route::group(
                 route::post('/appointments/{id}/update-status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
                 route::resource('/diagnoses', DiagnosisController::class);
                 Route::get('/get-medicines', [MedicineController::class, 'getMedicines'])->name('medicines.get');
+                route::resource('/chats', ConversationController::class);
             });
             route::prefix('/patient')->middleware('auth:web')->name('patient.')->group(function () {
                 Route::get('/', function () {
@@ -93,6 +95,7 @@ Route::group(
                 Route::get('/appointments/get_doctors/{departmentId}', [AppointmentController::class, 'getDoctors'])->name('appointments.getDoctors');
                 Route::get('/appointments/get-services/{departmentId}', [AppointmentController::class, 'getServices'])->name('appointments.getServices');
                 route::get('/appointments/get-service-details/{serviceId}', [AppointmentController::class, 'getServiceDetails'])->name('appointments.getServiceDetails');
+                route::resource('/chats', ConversationController::class);
             });
 
 

@@ -16,7 +16,7 @@ class Medicine extends Model
     public function treatments()
     {
         return $this->belongsToMany(Treatment::class, 'treatment_medicine')
-            ->withPivot('dosage')
+            ->withPivot('dosage', 'frequency', 'description')
             ->withTimestamps();
     }
 }

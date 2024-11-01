@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('treatment_medicine', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('treatment_id')->onDelete('cascade');
-            $table->foreignId('medicine_id')->onDelete('cascade');
+            $table->foreignId('treatment_id')->constrained()->onDelete('cascade');
+            $table->foreignId('medicine_id')->constrained()->onDelete('cascade');
             $table->string('dosage');
+            $table->string('frequency');
+            $table->string('description');
             $table->timestamps();
         });
     }

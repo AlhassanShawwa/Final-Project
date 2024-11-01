@@ -165,8 +165,7 @@ class AppointmentRepository implements AppointmentRepositoryInterface
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        // dd($appointments);
-        return view('dashboard.doctor.appointment.daily');
+         return view('dashboard.doctor.appointment.daily');
     }
     public function getDoctors($id)
     {

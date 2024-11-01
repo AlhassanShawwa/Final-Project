@@ -167,9 +167,9 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .col-form-label {
     text-align: right !important;
 }
-/* .input-group {
+.input-group {
     flex-direction: row-reverse;
-} */
+}
 .input-group .input-group-append .input-group-text {
     border-radius: 0 4px 4px 0 !important;
     -webkit-border-radius: 0 4px 4px 0 !important;
@@ -212,4 +212,41 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .kt-portlet .kt-portlet__head .kt-portlet__head-toolbar .nav-tabs {
     margin: 0;
     flex-direction: row-reverse;
+}
+.kt-grid.kt-grid--ver-desktop.kt-grid--desktop {
+
+    flex-direction: row-reverse ;
+}
+
+.kt-widget__item{
+    flex-direction: row-reverse;
+}
+ .kt-widget__info{
+    display: flex;
+     flex-direction: column;
+    justify-content: center;
+    align-items: end;
+ }
+.kt-widget__section
+{
+    flex-direction: row-reverse;
+}
+ .kt-chat__head{
+    flex-direction: row-reverse !important;
+ }
+.kt-chat__user
+{
+    flex-direction: row-reverse;
+
+}.kt-chat__message{
+    text-align: left !important;
+}
+
+.kt-chat__message--right{
+    text-align: right !important;
+}
+.kt-chat__toolbar{    flex-direction: row-reverse;
+}
+.kt-chat__editor textarea{
+    direction: rtl;
 }
